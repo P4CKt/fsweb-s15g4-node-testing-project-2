@@ -3,28 +3,31 @@
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
-module.exports = {
-  development: {
-    client: "sqlite3",
-    connection: {
-      filename: "./data/products.db3",
-    },
-
-    useNullAsDefault: true,
-    migrations: {
-      directory: "./data/migrations",
-    },
-    seeds: {
-      directory: "./data/seeds",
+const sharedConfig = {
+  client: "sqlite3",
+  migrations: {
+    directory: "./data/migrations",
+  },
+  seeds: {
+    directory: "./data/seeds",
+  },
+  // SQLite için aşağıdaki satırları ekliyoruz
+  useNullAsDefault: true,
+  // aşağıdaki satır foreign keys'i SQLite'da aktifleştirir
+  pool: {
+    afterCreate: (conn, done) => {
+      conn.run("PRAGMA foreign_keys = ON", done);
     },
   },
+};
+
+module.exports = {
+  development: {
+    ...sharedConfig,
+    connection: { filename: "./data/market.db3" },
+  },
   testing: {
-    client: "sqlite3",
-    useNullAsDefault: true,
-    migrations: { directory: "./data/migrations" },
-    seeds: { directory: "./data/seeds" },
-    connection: {
-      filename: "./data/test.db3",
-    },
+    ...sharedConfig,
+    connection: { filename: "./data/market-testing.db3" },
   },
 };
