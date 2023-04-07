@@ -15,6 +15,8 @@ exports.up = function (knex) {
       tbl.integer("price").notNullable();
       tbl
         .integer("market_Id")
+        .notNullable()
+        .unsigned()
         .references("market_Id")
         .inTable("markets")
         .onDelete("CASCADE")

@@ -2,7 +2,7 @@ const router = require("express").Router();
 const { ControlOfId, ControlOfInput } = require("./m_middleware");
 const {
   getAll,
-  getById,
+
   createNewMarket,
   update,
   remove,
